@@ -1,0 +1,9 @@
+{
+    "name": "lilian/portfolio",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Portfolio\\": "src/"
+        }
+    }
+}
