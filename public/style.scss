@@ -1,0 +1,77 @@
+$pageMargin: 5vw;
+
+$lightBlue: #3dd2cc;
+$black: #3e6b89;
+$error: #A92C69;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;1,300&display=swap');
+
+@mixin flex-x($wrap: nowrap) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: $wrap;
+    align-items: center;
+}
+
+@mixin flex-y($wrap: nowrap) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: $wrap;
+    align-items: center;
+}
+
+@mixin page-center($margins: $pageMargin) {
+    width: calc(100vw - $margins * 2);
+    margin-left: $margins;
+    margin-right: $margins;
+}
+
+* {
+    font-family: Montserrat, sans-serif;
+    text-align: center;
+    color: $black;
+}
+
+.text-blue {
+    color: $lightBlue;
+}
+
+.error {
+    color: $error;
+}
+
+header {
+    width: 100vw;
+    height: 80px;
+    background-color: #ffffff;
+    border-bottom: $lightBlue 5px solid;
+    position: fixed;
+    top: 0;
+    left: 0;
+    nav {
+        @include flex-x();
+        @include page-center();
+        justify-content: space-between;
+        height: 100%;
+        .links {
+            @include flex-x();
+            gap: 2vw;
+        }
+    }
+}
+
+body {
+    padding-top: 80px;
+}
+
+.logo {
+    color: $lightBlue;
+    font-size: x-large;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.icon {
+    color: $black;
+    font-size: large;
+}
