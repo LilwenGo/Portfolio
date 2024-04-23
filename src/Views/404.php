@@ -2,10 +2,9 @@
 ob_start();
 
 ?>
-
 <section class="error">
-    <h1>Erreur 404</h1>
-    <p>La page rechercher n'existe pas ! <a href="/dashboard">Quitter cette page !</a></p>
+    <h1 class="error">Erreur 404</h1>
+    <p>La page recherchée n'existe pas ! <a href="/">Retourner à l'accueil !</a></p>
 </section>
 
 <?php
