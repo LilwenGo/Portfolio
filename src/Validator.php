@@ -44,18 +44,36 @@ class Validator {
         $this->data = $data ?: $_POST;
     }
 
+    /**
+     * Verify the fields with the rules specified
+     * The array given must be of the form
+     * ["field1" => ["rule1", "rule2", "rule3"],
+     * "field2" => ["rule1", "rule2", "rule3"]]
+     * For example:
+     * <code>
+     * <?php
+     * $validator->validate(["username" => ["required", "min:3", "alpha"]])
+     * ?>
+     * </code>
+     */
     public function validate($array) {
         foreach ($array as $field => $rules) {
             $this->validateField($field, $rules);
         }
     }
 
+    /**
+     * For each rule from a field verify the rule
+     */
     public function validateField($field, $rules) {
         foreach ($rules as $rule) {
             $this->validateRule($field, $rule);
         }
     }
 
+    /**
+     * Verify the rule given is respected by the field
+     */
     public function validateRule($field, $rule) {
         $res = strrpos($rule, ":");
         if ($res == true) {
@@ -91,10 +109,16 @@ class Validator {
         }
     }
 
+    /**
+     * Return the errors in the validation
+     */
     public function errors() {
         return $this->errors;
     }
 
+    /**
+     * Store an error in the session
+     */
     public function storeSession($field, $error) {
         if (!isset($_SESSION["error"][$field])) {
             $_SESSION["error"][$field] = $error;
