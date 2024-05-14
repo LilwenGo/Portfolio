@@ -2,27 +2,21 @@
 namespace Portfolio\Models;
 
 /** Class AdminManager **/
-class AdminManager {
+class AdminManager extends Manager {
 
-    private \PDO $bdd;
-
-    public function __construct() {
-        $this->bdd = new \PDO('mysql:host='.HOST.';dbname=' . DATABASE . ';charset=utf8;' , USER, PASSWORD);
-        $this->bdd->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    }
-
-    //Methode qui retourne la bdd
-    public function getBdd(): \PDO {
-        return $this->bdd;
+    //Méthode qui retourne tous les admins
+    public function getAll(): array {
+        $stmt = $this->bdd->query("SELECT * FROM portfolio_admin");
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, Admin::class);
     }
 
     //Methode qui retourne l'auteur d'id $id
-    public function getById(string $id): array|bool {
+    public function getById(string $id): Admin|bool {
         $stmt = $this->bdd->prepare("SELECT * FROM portfolio_admin WHERE Id = ?");
-            $stmt->execute(array(
-                $id
-            ));
-            return $stmt->fetch();
+        $stmt->execute(array(
+            $id
+        ));
+        return $stmt->fetch();
     }
 
     //Methode qui retourne l'auteur de nom $username
@@ -31,7 +25,7 @@ class AdminManager {
         $stmt->execute(array(
             $username
         ));
-        $stmt->setFetchMode(\PDO::FETCH_CLASS,"BlogMvc\Models\Admin");
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, Admin::class);
 
         return $stmt->fetch();
     }
@@ -40,7 +34,7 @@ class AdminManager {
     public function all(): array {
         $stmt = $this->bdd->query('SELECT * FROM portfolio_admin');
 
-        return $stmt->fetchAll(\PDO::FETCH_CLASS,"Todo\Models\Admin");
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, Admin::class);
     }
 
     //Methode qui insere un nouvel Admin avec un mot de passe $password
@@ -50,5 +44,14 @@ class AdminManager {
             $_POST["username"],
             $password
         ));
+    }
+
+    //Méthode de modification d'admin
+    public function update(int $id): void {
+        $stmt = $this->bdd->prepare("UPDATE portfolio_admin SET username = ? WHERE id = ?");
+        $stmt->execute([
+            $_POST["name"],
+            $id
+        ]);
     }
 }

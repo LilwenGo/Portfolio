@@ -9,6 +9,18 @@ class AdminController extends Controller {
         $this->manager = new AdminManager();
         parent::__construct();
     }
+    
+    /**
+     * If admin is not signed in show register view
+     */
+    public function index(): void {
+        if(isset($_SESSION["user"]["id"])) {
+            $admins = $this->manager->getAll();
+            require VIEWS . 'Auth/admins.php';
+        } else {
+            header("Location: /");
+        }
+    }
 
     /**
      * If admin is not signed in show login view
@@ -22,23 +34,12 @@ class AdminController extends Controller {
     }
 
     /**
-     * If admin is not signed in show register view
-     */
-    public function showRegister(): void {
-        if(isset($_SESSION["user"]["id"])) {
-            require VIEWS . 'Auth/register.php';
-        } else {
-            header("Location: /");
-        }
-    }
-
-    /**
      * Destroy the admin session
      */
     public function logout(): void {
         session_start();
         session_destroy();
-        header('Location: /login/');
+        header('Location: /');
     }
 
     /**
@@ -48,7 +49,7 @@ class AdminController extends Controller {
     public function register(): void {
         //Valide les champs
         $this->validator->validate([
-            "username"=>["required", "min:3", "alphaNum"],
+            "username"=>["required", "min:3", "max:9", "alphaNum"],
             "password"=>["required", "min:6", "alphaNum", "confirm"],
             "passwordConfirm"=>["required", "min:6", "alphaNum"]
         ]);
@@ -107,13 +108,48 @@ class AdminController extends Controller {
                 header("Location: /");
             } else {
                 //Si même nom erreur
-                $_SESSION["error"]['message'] = "Une erreur sur les identifiants";
+                $_SESSION["error"]['password'] = "Une erreur sur les identifiants";
                 //Retour login
-                header("Location: /login");
+                header("Location: /lp-admin");
             }
         } else {
             //Si pas validé retour login
-            header("Location: /login");
+            header("Location: /lp-admin");
+        }
+    }
+
+    /**
+     * Verify the field and update the admin name
+     */
+    public function update(int $id): void {
+        if(isset($_SESSION["user"])) {
+            //Valide le champ
+            $this->validator->validate([
+                "name"=>["required", "min:3", "max:9", "alphaNum"]
+            ]);
+            //Stocke en old
+            $_SESSION['old'] = $_POST;
+
+            if (!$this->validator->errors()) {
+                //Si validé chercher si même nom qu'en bdd
+                $res = $this->manager->find($_POST["username"]);
+
+                if (!$res) {
+                    $this->manager->update($id);
+                    header("Location: /lp-admin/admins");
+                } else {
+                    //Si même nom erreur
+                    $_SESSION["error"]['name'] = "Le nom est déja utilisé !";
+                    //Retour login
+                    header("Location: /lp-admin/admins");
+                }
+            } else {
+                //Si pas validé retour login
+                header("Location: /lp-admin/admins");
+            }
+        } else {
+            //Si pas validé retour login
+            header("Location: /lp-admin/admins");
         }
     }
 }

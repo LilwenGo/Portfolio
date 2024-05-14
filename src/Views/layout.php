@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>— ToDoList —</title>
+    <title>--Portfolio--</title>
     <script src="https://kit.fontawesome.com/c1d0ab37d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/logo.jpg">
 </head>
 <body>
     <header>
@@ -21,6 +22,7 @@
                 <?php
                 if (isset($_SESSION["user"]["username"])) {
                     ?>
+                        <a href="/lp-admin/admins" class="icon"><i class="fas fa-users-cog"></i></a>
                         <a href="/logout" class="icon"><i class="fas fa-power-off"></i></a>
                     <?php
                 }

@@ -2,6 +2,7 @@ $pageMargin: 5vw;
 
 $lightBlue: #3dd2cc;
 $black: #3e6b89;
+$update: #9EF096;
 $error: #A92C69;
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;1,300&display=swap');
@@ -36,8 +37,17 @@ $error: #A92C69;
     color: $lightBlue;
 }
 
+.text-white {
+    color: #ffffff;
+}
+
+.update {
+    color: $update;
+}
+
 .error {
     color: $error;
+    font-weight: 700;
 }
 
 header {
@@ -62,6 +72,16 @@ header {
 
 body {
     padding-top: 80px;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+.screen {
+    @include flex-y();
+    width: 100%;
 }
 
 .logo {
@@ -74,4 +94,131 @@ body {
 .icon {
     color: $black;
     font-size: large;
+}
+
+.btn {
+    padding: 5px;
+    text-decoration: none;
+    width: fit-content;
+    cursor: pointer;
+    display: block;
+    color: #ffffff;
+    border: 2px solid;
+    font-size: medium;
+    font-weight: 700;
+    border-radius: 5px;
+    &-filled {
+        background-color: $lightBlue;
+        border: $lightBlue 2px solid;
+        i {
+            color: #ffffff;
+        }
+        &:hover {
+            background-color: transparent;
+            color: $lightBlue;
+            i {
+                color: $lightBlue;
+            }
+        }
+    }
+    &-error {
+        background-color: transparent;
+        border: $error 2px solid;
+        color: $error;
+        i {
+            color: $error;
+        }
+        &:hover {
+            background-color: $error;
+            color: #ffffff;
+            i {
+                color: #ffffff;
+            }
+        }
+    }
+    &-update {
+        background-color: transparent;
+        border: $update 2px solid;
+        color: $update;
+        i {
+            color: $update;
+        }
+        &:hover {
+            background-color: $update;
+            color: #ffffff;
+            i {
+                color: #ffffff;
+            }
+        }
+    }
+}
+
+.form {
+    border: $lightBlue solid 2px;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    .fields {
+        @include flex-y();
+        gap: 20px;
+        .blockInput {
+            @include flex-y();
+            width: 90%;
+            .input {
+                display: block;
+                width: 90%;
+                transition: 250ms;
+                font-weight: 700;
+                border: none;
+                border-bottom: $lightBlue 2px solid;
+                &:focus-visible {
+                    width: 100%;
+                    border-color: $black;
+                    outline: none;
+                }
+                &:hover {
+                    width: 100%;
+                }
+                &::placeholder {
+                    color: #3e6b8980;
+                    font-weight: 300;
+                }
+            }
+        }
+    }
+}
+
+.tbl {
+    margin: 20px 0;
+    border: $lightBlue 2px solid;
+    border-collapse: collapse;
+    thead {
+        background-color: $lightBlue;
+        border-color: #ffffff;
+        th {
+            font-weight: bold;
+            color: #ffffff;
+            border: #ffffff 2px solid;
+        }
+    }
+    tbody {
+        border: $lightBlue 2px solid;
+        td {
+            border: $lightBlue 2px solid;
+        }
+    }
+    td, th {
+        padding: 10px;
+    }
+    .actions {
+        width: max-content;
+        .btn {
+            display: inline;
+        }
+    }
+}
+
+.hr {
+    border: $lightBlue solid 1.5px;
+    margin: 20px 0;
 }
