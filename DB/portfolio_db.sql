@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `portfolio_project` (
 CREATE TABLE IF NOT EXISTS `portfolio_techno` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`techno_name` varchar(255) NOT NULL,
-	`project_id` int NOT NULL,
 	PRIMARY KEY (`id`)
 )ENGINE = InnoDB;
 
