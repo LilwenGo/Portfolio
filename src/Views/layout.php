@@ -22,6 +22,7 @@
                 <?php
                 if (isset($_SESSION["user"]["username"])) {
                     ?>
+                        <a href="/lp-admin/technos" class="icon"><i class="fas fa-sim-card"></i></a>
                         <a href="/lp-admin/admins" class="icon"><i class="fas fa-users-cog"></i></a>
                         <a href="/logout" class="icon"><i class="fas fa-power-off"></i></a>
                     <?php

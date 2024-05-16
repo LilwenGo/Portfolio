@@ -1,19 +1,36 @@
 <?php
 namespace Portfolio;
 
+/**
+ * Class Route store the paths given and call the Controller's method
+ */
 class Route {
 
-    private $path;
-    private $callable;
-    private $matches = [];
-    private $params = [];
+    /**
+     * Route to match
+     */
+    private string $path;
+    /**
+     * Controller's method to call (ControllerName@methodName)
+     */
+    private string $callable;
+    /**
+     * Params list in the url
+     */
+    private array $matches = [];
 
-    public function __construct($path, $callable){
+    /**
+     * Store the path and the callable
+     */
+    public function __construct(string $path, string $callable){
         $this->path = trim($path, '/');
         $this->callable = $callable;
     }
 
-    public function match($url){
+    /**
+     * Returns a boolean if the given url matches with the route
+     */
+    public function match(string $url): bool{
         $url = trim($url, '/');
         $path = preg_replace('#:([\w]+)#', '([^/]+)', $this->path);
         $regex = "#^$path$#i";
@@ -25,6 +42,9 @@ class Route {
         return true;
     }
 
+    /**
+     * Call the controller's method with the params
+     */
     public function call() {
          $rep = explode("@", $this->callable);
          $controller = "Portfolio\\Controllers\\".$rep[0];

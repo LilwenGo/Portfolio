@@ -10,6 +10,8 @@ $router = new Portfolio\Router($_SERVER["REQUEST_URI"]);
 $router->get('/', "ProjectController@index");
 $router->get('/lp-admin/', "AdminController@showLogin");
 $router->get('/lp-admin/admins/', "AdminController@index");
+$router->get('/lp-admin/admins/:id/edit/', "AdminController@showEdit");
+$router->get('/lp-admin/admins/:id/delete/', "AdminController@delete");
 $router->get('/logout/', "AdminController@logout");
 
 $router->post('/login/', "AdminController@login");

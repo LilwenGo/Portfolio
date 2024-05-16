@@ -96,6 +96,34 @@ h1, h2, h3, h4, h5, h6 {
     font-size: large;
 }
 
+@for $i from 1 through 4 {
+    .mt-#{$i} {
+        margin-top: calc($i * 10);
+    }
+
+    .mb-#{$i} {
+        margin-bottom: calc($i * 10);
+    }
+
+    .ml-#{$i} {
+        margin-left: calc($i * 10);
+    }
+
+    .mr-#{$i} {
+        margin-right: calc($i * 10);
+    }
+    
+    .mx-#{$i} {
+        margin-left: calc($i * 10);
+        margin-right: calc($i * 10);
+    }
+
+    .mx-#{$i} {
+        margin-top: calc($i * 10);
+        margin-bottom: calc($i * 10);
+    }
+}
+
 .btn {
     padding: 5px;
     text-decoration: none;

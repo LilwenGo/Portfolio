@@ -18,7 +18,7 @@ ob_start();
           <td><?= $admin->getUsername();?></td>
           <td class="actions">
             <a href="/lp-admin/admins/<?= $admin->getId();?>/edit" class="btn btn-update">Modifier</a>
-            <a class="btn btn-error">Suprimmer</a>
+            <a href="/lp-admin/admins/<?= $admin->getId();?>/delete" class="btn btn-error">Suprimmer</a>
           </td>
         </tr>
       <?php }?>
@@ -48,7 +48,7 @@ ob_start();
         <span class="error"><?php echo error("passwordConfirm");?></span>
       </div>
   
-      <button type="submit" name="button" class="btn btn-filled">S'identifier</button>
+      <button type="submit" name="button" class="btn btn-filled">Valider</button>
     </div>
   </form>
 </section>

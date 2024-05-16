@@ -2,11 +2,22 @@
 
 namespace Portfolio;
 
-/** Class Validator **/
+/**
+ *  Class Validator validate the fields given and store the errors.
+ */
 class Validator {
 
+    /**
+     * Data to validate
+     */
     private $data;
+    /**
+     * Errors list
+     */
     private $errors = [];
+    /**
+     * Error messages list
+     */
     private $messages = [
         "required" => "Le champ est requis !",
         "min" => "Le champ doit contenir un minimum de %^% lettres !",
@@ -23,6 +34,9 @@ class Validator {
         "numeric" => "Le champ peut contenir que des chiffres !",
         "confirm" => "Le champs n'est pas conforme au confirm !"
     ];
+    /**
+     * Rules list
+     */
     private $rules = [
         "required" => "#^.+$#",
         "min" => "#^.{ù,}$#",
@@ -40,7 +54,11 @@ class Validator {
         "confirm" => ""
     ];
 
-    public function __construct($data = []) {
+    /**
+     * Get an array of the data to validate.
+     * If not data given get the POST data
+     */
+    public function __construct(array $data = []) {
         $this->data = $data ?: $_POST;
     }
 
@@ -56,7 +74,7 @@ class Validator {
      * ?>
      * </code>
      */
-    public function validate($array) {
+    public function validate(array $array): void {
         foreach ($array as $field => $rules) {
             $this->validateField($field, $rules);
         }
@@ -65,7 +83,7 @@ class Validator {
     /**
      * For each rule from a field verify the rule
      */
-    public function validateField($field, $rules) {
+    public function validateField(string $field, array $rules): void {
         foreach ($rules as $rule) {
             $this->validateRule($field, $rule);
         }
@@ -74,7 +92,7 @@ class Validator {
     /**
      * Verify the rule given is respected by the field
      */
-    public function validateRule($field, $rule) {
+    public function validateRule(string $field, string $rule) {
         $res = strrpos($rule, ":");
         if ($res == true) {
             $repRule = explode(":", $rule);
@@ -112,14 +130,14 @@ class Validator {
     /**
      * Return the errors in the validation
      */
-    public function errors() {
+    public function errors(): array {
         return $this->errors;
     }
 
     /**
      * Store an error in the session
      */
-    public function storeSession($field, $error) {
+    public function storeSession(string $field, string $error) {
         if (!isset($_SESSION["error"][$field])) {
             $_SESSION["error"][$field] = $error;
         } else {

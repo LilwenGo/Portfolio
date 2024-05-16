@@ -3,8 +3,14 @@ namespace Portfolio\Controllers;
 
 use Portfolio\Controllers\Controller;
 use Portfolio\Models\AdminManager;
+/**
+ * Class AdminController
+ */
 class AdminController extends Controller {
 
+    /**
+     * Instantiate the needed managers and the validator
+     */
     public function __construct() {
         $this->manager = new AdminManager();
         parent::__construct();
@@ -18,7 +24,7 @@ class AdminController extends Controller {
             $admins = $this->manager->getAll();
             require VIEWS . 'Auth/admins.php';
         } else {
-            header("Location: /");
+            header("Location: /lp-admin/login");
         }
     }
 
@@ -30,6 +36,22 @@ class AdminController extends Controller {
             require VIEWS . 'Auth/login.php';
         } else {
             header("Location: /");
+        }
+    }
+    
+    /**
+     * If admin is signed in show edit view
+     */
+    public function showEdit(int $id): void {
+        if(isset($_SESSION["user"]["id"])) {
+            $admin = $this->manager->getById($id);
+            if($admin) {
+                require VIEWS . 'Auth/edit.php';
+            } else {
+                header("Location:");
+            }
+        } else {
+            header("Location: /lp-admin/login");
         }
     }
 
@@ -47,38 +69,33 @@ class AdminController extends Controller {
      * before to login with it
      */
     public function register(): void {
-        //Valide les champs
-        $this->validator->validate([
-            "username"=>["required", "min:3", "max:9", "alphaNum"],
-            "password"=>["required", "min:6", "alphaNum", "confirm"],
-            "passwordConfirm"=>["required", "min:6", "alphaNum"]
-        ]);
-        //Stocke en old
-        $_SESSION['old'] = $_POST;
-
-        if (!$this->validator->errors()) {
-            //Si validé recherche d'utilisateur avec le même nom
-            $res = $this->manager->find($_POST["username"]);
-
-            if (empty($res)) {
-                //Si pas de même nom cryptage du mot de passe
-                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                //Insertion du nouvel utilisateur
-                $user_id = $this->manager->store($password);
-                $_SESSION['user'] = [
-                    'id' => $user_id,
-                    'username' => $_POST["username"]
-                ];
-                header("Location: /");
-            } else {
-                //Si même nom alors erreur
-                $_SESSION["error"]['username'] = "Le nom d'utilisateur choisi est déjà utilisé !";
-                //Retour vers register
-                header("Location: /register");
+        if(isset($_SESSION["user"])) {
+            //Valide les champs
+            $this->validator->validate([
+                "username"=>["required", "min:3", "max:9", "alphaNum"],
+                "password"=>["required", "min:6", "alphaNum", "confirm"],
+                "passwordConfirm"=>["required", "min:6", "alphaNum"]
+            ]);
+            //Stocke en old
+            $_SESSION['old'] = $_POST;
+    
+            if (!$this->validator->errors()) {
+                //Si validé recherche d'utilisateur avec le même nom
+                $res = $this->manager->find($_POST["username"]);
+    
+                if (empty($res)) {
+                    //Si pas de même nom cryptage du mot de passe
+                    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                    //Insertion du nouvel utilisateur
+                    $this->manager->store($password);
+                } else {
+                    //Si même nom alors erreur
+                    $_SESSION["error"]['username'] = "Le nom d'utilisateur choisi est déjà utilisé !";
+                }
             }
+            header("Location: /lp-admin/admins");
         } else {
-            //Si pas validé retour vers register
-            header("Location: /register");
+            header("Location: /lp-admin/login");
         }
     }
 
@@ -125,7 +142,7 @@ class AdminController extends Controller {
         if(isset($_SESSION["user"])) {
             //Valide le champ
             $this->validator->validate([
-                "name"=>["required", "min:3", "max:9", "alphaNum"]
+                "username"=>["required", "min:3", "max:9", "alphaNum"]
             ]);
             //Stocke en old
             $_SESSION['old'] = $_POST;
@@ -136,6 +153,7 @@ class AdminController extends Controller {
 
                 if (!$res) {
                     $this->manager->update($id);
+                    unset($_SESSION['old']);
                     header("Location: /lp-admin/admins");
                 } else {
                     //Si même nom erreur
@@ -145,11 +163,30 @@ class AdminController extends Controller {
                 }
             } else {
                 //Si pas validé retour login
-                header("Location: /lp-admin/admins");
+                header("Location: /lp-admin/admins/".$id."/edit");
             }
         } else {
             //Si pas validé retour login
+            header("Location: /lp-admin/login");
+        }
+    }
+
+    /**
+     * If admin is logued delete the admin with corresponding id
+     */
+    public function delete(int $id): void {
+        if(isset($_SESSION["user"])) {
+            //Search the admin
+            $admin = $this->manager->getById($id);
+            if($admin) {
+                //If founded delete it
+                $this->manager->delete($admin->getId());
+            }
+            //Back to admins view
             header("Location: /lp-admin/admins");
+        } else {
+            //If not logued go to login view
+            header("Location: /lp-admin/login");
         }
     }
 }
