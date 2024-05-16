@@ -18,7 +18,7 @@ class AdminManager extends Manager {
      * Returns the admin with the corresponding id
      */
     public function getById(string $id): Admin|bool {
-        $stmt = $this->bdd->prepare("SELECT * FROM portfolio_admin WHERE Id = ?");
+        $stmt = $this->bdd->prepare("SELECT * FROM portfolio_admin WHERE id = ?");
         $stmt->execute(array(
             $id
         ));
