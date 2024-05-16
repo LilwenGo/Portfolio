@@ -11,28 +11,28 @@ CREATE TABLE IF NOT EXISTS `portfolio_Admin` (
 	`username` varchar(50) NOT NULL,
 	`password` varchar(255) NOT NULL,
 	PRIMARY KEY (`id`)
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `portfolio_Project` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`project_name` varchar(255) NOT NULL,
 	`project_description` text NOT NULL,
 	PRIMARY KEY (`id`)
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `portfolio_Techno` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`techno_name` varchar(255) NOT NULL,
 	`project_id` int NOT NULL,
 	PRIMARY KEY (`id`)
-);
+)ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `portfolio_Image` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`image_name` varchar(255) NOT NULL,
 	`project_id` int NOT NULL,
 	PRIMARY KEY (`id`)
-);
+)ENGINE = InnoDB;
 
 
 
