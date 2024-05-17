@@ -7,7 +7,7 @@
     <title>--Portfolio--</title>
     <script src="https://kit.fontawesome.com/c1d0ab37d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style.css">
-    <link rel="icon" href="/images/logo.jpg">
+    <link rel="icon" href="/images/logo.png">
 </head>
 <body>
     <header>
